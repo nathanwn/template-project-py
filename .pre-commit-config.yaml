@@ -1,0 +1,73 @@
+# See https://pre-commit.com for more information
+# See https://pre-commit.com/hooks.html for more hooks
+repos:
+
+# Generally useful hooks
+- repo: meta
+  hooks:
+  - id: check-hooks-apply
+  - id: check-useless-excludes
+
+- repo: https://github.com/pre-commit/pre-commit-hooks
+  rev: v4.3.0
+  hooks:
+  - id: check-added-large-files
+  - id: check-ast
+  - id: check-case-conflict
+  - id: check-merge-conflict
+  - id: check-yaml
+  - id: debug-statements
+  - id: end-of-file-fixer
+  - id: trailing-whitespace
+
+# Useful Python checks
+- repo: https://github.com/pre-commit/pygrep-hooks
+  rev: v1.9.0
+  hooks:
+  - id: python-check-blanket-noqa
+  - id: python-check-mock-methods
+  - id: python-use-type-annotations
+  - id: text-unicode-replacement-char
+
+# Upgrade and rewrite Python idioms
+- repo: https://github.com/asottile/pyupgrade
+  rev: v2.37.3
+  hooks:
+  - id: pyupgrade
+
+# Formatters, linters, static analysers
+- repo: local
+  hooks:
+  - id: mypy
+    name: mypy
+    entry: poetry run mypy
+    files: \.py$
+    language: system
+  - id: pylint
+    name: pylint
+    entry: poetry run pylint
+    files: \.py$
+    language: system
+  - id: flake8
+    name: flake8
+    entry: poetry run flake8
+    files: \.py$
+    language: system
+  - id: isort
+    name: isort
+    entry: poetry run isort
+    files: \.py$
+    language: system
+  - id: black
+    name: black
+    entry: poetry run black
+    files: \.py$
+    language: system
+
+# Check commit messages
+- repo: https://github.com/commitizen-tools/commitizen
+  rev: v2.31.0
+  hooks:
+  - id: commitizen
+    name: Check conventional commit message
+    stages: [commit-msg]
